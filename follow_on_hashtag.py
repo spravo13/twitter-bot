@@ -13,11 +13,15 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 api = tweepy.API(auth)
 
-try:
-	search_results = twitter.search(q='#hashtag', count=50)
-except TwythonError as e:
-	print e
+#tags you want to follow
+tags = ["#linux", "#code", "#tech", "#technology"]
 
-for tweet in search_results['statuses']:
-	user = tweet['user']['screen_name'].encode('utf-8')
-	api.create_friendship(user)
+for tag in tags:
+	try:
+		search_results = twitter.search(q=tag, count=50)
+	except TwythonError as e:
+		print e
+
+	for tweet in search_results['statuses']:
+		user = tweet['user']['screen_name'].encode('utf-8')
+		api.create_friendship(user)
